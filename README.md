@@ -1,64 +1,70 @@
-# RebootLondonHackathon
+# Getting Started with Create React App
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This is the repository for the Reboot London Hackathon.
+## Available Scripts
 
-## Fork this Repository
+In the project directory, you can run:
 
-To fork this repository, select the `Fork` dropdown menu next to the title:
+### `npm start`
 
-![](./images/fork.png)
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Then select `+ Create New Fork`:
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-![](./images/create-new-fork.png)
+### `npm test`
 
-For the `Repository name`, please make sure you enter your team's name so that we can keep track of the different repositories.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-If your team is building multiple components and requires multiple repositories, fork this repository and enter the team name followed by the name of the component.
+### `npm run build`
 
-For example, if you have a `frontend` and `backend` application, the first fork can be called `TeamName-frontend` and the second fork can be called `TeamName-backend`.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-> [!NOTE]
-> If you're only building a single component, you can leave the `Repository name` as `TeamName`.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-Once you've entered the name, select `Create fork`:
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-![](./images/create-fork.png)
+### `npm run eject`
 
-### Add Collaborators
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-Now that you've created your own fork, if another member within your team wants to contribute to the code, you would need to add them as a collaborator.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-To do so, navigate to the repository containing your fork and click on `Settings`:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-![](./images/settings.png)
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-Then select the `Collaborators` option in the navigation menu on the left:
+## Learn More
 
-![](./images/collaborators.png)
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-Select `Add people`:
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-![](./images/add-people.png)
+### Code Splitting
 
-And search for the `username`, `full name`, or `email` of the member you want to add to the repository.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-Then they can clone your repository and contribute code to your fork.
+### Analyzing the Bundle Size
 
-> [!NOTE]
-> Please make sure to add them to your forked version of the repository. You won't be able to add them here directly.
->
-### How to sign in to GitHub Copilot
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-IT@LBG request will need to have been raised and completed before you can do the below:
- 
-Once you've been given a licence you'll be sent your username in an email (to your LBG email address).
+### Making a Progressive Web App
 
-When logging in use the username you've been given (example: charlotte-Boults_lbgghcp) this will remove the password field and redirect you to the Microsoft sign in page.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-On the Microsoft sign in page use your LBG global credentials (example:Charlotte.boults@lloydsbanking.com) and password you use to log into your work device.
+### Advanced Configuration
 
-Once authentication is complete you should be re-directed to GitHub Copilot home page.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-Now you're ready to start. Happy coding!
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

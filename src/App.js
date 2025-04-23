@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { fetchProfiles } from './component/api';
-//import ProfileGrid from './component/ProfileGrid';
+import ProfileGrid from './component/ProfileGrid';
 import ProfileModal from './component/ProfileModal';
 
 function App() {

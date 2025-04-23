@@ -8,7 +8,7 @@ export default function ProfileGrid({ profile, onSelect}) {
                 <ProfileCard
                     key={p.id}
                     profile={p}
-                    onCLick={() => onSelect(p)}
+                    onClick={() => onSelect(p)}
                     />
             ))}
         </div>

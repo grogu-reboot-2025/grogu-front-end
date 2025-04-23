@@ -1,6 +1,7 @@
-export async function fetchData(url) {
+export async function fetchProfiles(url) {
+  const BASE = process.env.REACT_APP_API_BASE_URL;
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${BASE}${url}`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }

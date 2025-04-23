@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { fetchProfiles } from './api';
-import ProfileGrid from './ProfileGrid';
-import ProfileModal from './ProfileModal';
+import { fetchProfiles } from './component/api';
+//import ProfileGrid from './component/ProfileGrid';
+import ProfileModal from './component/ProfileModal';
 
 function App() {
   const [profiles, setProfiles] = useState([]);

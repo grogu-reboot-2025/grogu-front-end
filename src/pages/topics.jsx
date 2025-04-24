@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { animated } from "react-spring";
+import useFadeInOnLoad from "../hooks/useFadeInOnLoad";
 
 export const Topics = () => {
   const [checkedStates, setCheckedStates] = useState({
@@ -33,8 +35,10 @@ export const Topics = () => {
     navigate("/swipe", { state: { selectedTopics: statesToSubmit } });
   };
 
+  const fadeIn = useFadeInOnLoad();
+
   return (
-    <div>
+    <animated.div style={fadeIn}>
       <Card>
         <FormGroup>
           {Object.keys(checkedStates).map((topic) => (
@@ -54,6 +58,6 @@ export const Topics = () => {
         {/* <pre>{JSON.stringify(checkedStates, null, 2)}</pre> */}
         <Button onClick={handleSubmit}>Let's swipe!</Button>
       </Card>
-    </div>
+    </animated.div>
   );
 };

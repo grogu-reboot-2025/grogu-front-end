@@ -2,6 +2,8 @@ import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import React, { useState } from "react";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import { animated } from "react-spring";
+import useFadeInOnLoad from "../hooks/useFadeInOnLoad";
 
 export const Topics = () => {
   const [checkedStates, setCheckedStates] = useState({
@@ -30,8 +32,10 @@ export const Topics = () => {
     console.log(statesToSubmit);
   };
 
+  const fadeIn = useFadeInOnLoad();
+
   return (
-    <div>
+    <animated.div style={fadeIn}>
       <Card>
         <FormGroup>
           {Object.keys(checkedStates).map((topic) => (
@@ -51,6 +55,6 @@ export const Topics = () => {
         {/* <pre>{JSON.stringify(checkedStates, null, 2)}</pre> */}
         <Button onClick={handleSubmit}>Let's swipe!</Button>
       </Card>
-    </div>
+    </animated.div>
   );
 };

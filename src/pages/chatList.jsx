@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Card, CardContent, CardMedia, Typography, Stack } from "@mui/material";
 import { styled } from '@mui/system';
 import { useSavedCards } from "../context/SavedCardsContext";
+import { useLocation } from 'react-router-dom';
 
 // Styled components
 const MatchCard = styled(Card)(({ theme }) => ({
@@ -29,22 +30,22 @@ const Media = styled(CardMedia)`
 `;
 
 // Single rectangular match card
-const MatchListItem = ({ avatarSrc, name, tagline }) => {
+const MatchListItem = ({ card }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/chat');
+    navigate('/chat', { state: card }); // Pass the entire card data
   };
 
   return (
     <MatchCard onClick={handleClick}>
-      <Media component="img" image={avatarSrc} alt={name} />
+      <Media component="img" image={card.ImagePath} alt={card.title} />
       <CardContent sx={{ flex: 1 }}>
         <Typography variant="h6" fontWeight={600}>
-          {name}
+          {card.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {tagline || "Online now"}
+          {card.description || "Available now"}
         </Typography>
       </CardContent>
     </MatchCard>
@@ -71,9 +72,7 @@ export const ChatList = () => {
           savedCards.map((card, index) => (
             <MatchListItem
               key={index}
-              avatarSrc={card.ImagePath}
-              name={card.title}
-              tagline={card.description || "Available now"}
+              card={card} // Pass the entire card object
             />
           ))
         ) : (
@@ -85,3 +84,28 @@ export const ChatList = () => {
     </Box>
   );
 };
+
+// Chat component to display card data
+const Chat = () => {
+  const location = useLocation();
+  const card = location.state; // Get the entire card object passed in the state
+
+  if (!card) {
+    return <div>No card data available</div>; // Handle case where no card was passed
+  }
+
+  return (
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" fontWeight={600}>
+        Chat with {card.title}
+      </Typography>
+      <img src={card.ImagePath} alt={card.title} style={{ width: '100%', maxWidth: 500, borderRadius: '8px' }} />
+      <Typography variant="body1" sx={{ marginTop: 2 }}>
+        {card.description || "No description available"}
+      </Typography>
+      {/* Add more chat functionality here */}
+    </Box>
+  );
+};
+
+export default Chat;

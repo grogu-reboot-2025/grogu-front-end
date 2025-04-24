@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { FaPaperPlane } from "react-icons/fa";  // Import the send icon from react-icons
+import { FaPaperPlane } from "react-icons/fa"; // Import the send icon from react-icons
+import { useLocation } from "react-router-dom"; // Import useLocation to access passed data
 import "./ChatScreen.css";
 import useOpenAIChat from "../hooks/useOpenAi";
 
@@ -20,6 +21,15 @@ export const ChatScreen = ({ systemMessage }) => {
     config: { tension: 300, friction: 20 },
   });
 
+  const { state } = useLocation(); // Access passed data using useLocation
+  const [cardData, setCardData] = useState(null);
+
+  useEffect(() => {
+    if (state) {
+      setCardData(state); // Set the card data if passed from the previous page
+    }
+  }, [state]);
+
   const handleSend = async (text) => {
     if (text.trim() === "") return;
 
@@ -33,10 +43,13 @@ export const ChatScreen = ({ systemMessage }) => {
       };
     });
 
+    // Dynamic system message based on card title
+    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else.`;
+
     const messages = [
       {
         role: "system",
-        content: systemMessage || "You are a helpful assistant that only knows about pensions, you know nothing else and will not answer about anything else.",
+        content: systemMessageContent,
       },
       ...chats[currentChat]
         .map((msg) => ({
@@ -87,7 +100,15 @@ export const ChatScreen = ({ systemMessage }) => {
 
   return (
     <div className="chat-screen">
-      <h2>Chat with {`Person ${currentChat}`}</h2>
+      {/* Display card title if available */}
+      {cardData ? (
+        <div>
+          <h2>Chat with {cardData.title}</h2>
+        </div>
+      ) : (
+        <h2>Loading chat...</h2>
+      )}
+
       <div className="chat-window">
         {chats[currentChat]?.map((msg) => (
           msg.sender !== "system" && (

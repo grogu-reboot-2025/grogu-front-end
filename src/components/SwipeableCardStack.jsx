@@ -80,7 +80,7 @@ export const SwipeableCardStack = ({ data }) => {
           </SwipeCard>
         ) : (
           <GreyedOutCard>
-            <h2>You've reaches the end of your Products</h2>
+            <h2>You've reached the end of your Products</h2>
           </GreyedOutCard>
         )}
         <ChoiceButton

@@ -40,8 +40,13 @@ export const User = () => {
           {/* Name Input */}
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
             <label>
-              <h4>Name</h4>
-              <Input type="text" name="name" label="Name" />
+              <h4 style={{ padding: "0.3rem" }}>Name</h4>
+              <Input
+                type="text"
+                name="name"
+                label="Name"
+                style={{ height: "50%" }}
+              />
             </label>
           </div>
 

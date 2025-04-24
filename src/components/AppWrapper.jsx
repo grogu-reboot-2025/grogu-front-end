@@ -23,7 +23,7 @@ const Main = styled.main`
 export const AppWrapper = ({ children }) => {
   return (
     <Wrapper>
-      <Header />
+      {/* <Header /> */}
       <Main>{children}</Main>
       {/* <Footer /> */}
     </Wrapper>

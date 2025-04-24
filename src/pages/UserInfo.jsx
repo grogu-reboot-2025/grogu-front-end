@@ -31,7 +31,7 @@ export const User = () => {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: "20px",
+            gap: "15px",
             justifyContent: "center",
             maxWidth: "600px",
             margin: "1rem auto",

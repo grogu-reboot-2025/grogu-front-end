@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Button = styled.button`
   padding: ${({ theme }) => theme.spacing.medium};
@@ -9,10 +9,10 @@ const Button = styled.button`
   border-radius: ${({ theme }) => theme.spacing.small};
   cursor: pointer;
   background-color: ${({ theme, variant }) =>
-    variant === 'secondary' ? theme.colors.secondary : theme.colors.primary};
+    variant === "secondary" ? theme.colors.secondary : theme.colors.primary};
   color: ${({ theme }) => theme.colors.background};
   text-align: center;
-  width: 100%; // Full width for mobile-first design
+  width: 80%; // Full width for mobile-first design
 
   &:hover {
     opacity: 0.9;

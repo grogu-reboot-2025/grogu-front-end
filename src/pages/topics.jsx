@@ -121,7 +121,7 @@ export const Topics = () => {
           ))}
         </div>
       </Card>
-      <div className="mt-6">
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
         <Button onClick={handleSubmit}>Let's swipe!</Button>
       </div>
     </animated.div>

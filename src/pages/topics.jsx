@@ -5,13 +5,16 @@ import Button from "../components/Button";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { animated } from "react-spring";
 import useFadeInOnLoad from "../hooks/useFadeInOnLoad";
+import { Heading } from "../components/Typography";
 
 export const Topics = () => {
   const [checkedStates, setCheckedStates] = useState({
     Insurance: false,
     Pensions: false,
     Investments: false,
-    Banking: false,
+    "Bank Accounts": false,
+    ISAs: false,
+    "Credit Cards": false,
   });
 
   const navigate = useNavigate(); // Initialize useNavigate
@@ -40,6 +43,7 @@ export const Topics = () => {
   return (
     <animated.div style={fadeIn}>
       <Card>
+        <Heading>Pick your preferences</Heading>
         <FormGroup>
           {Object.keys(checkedStates).map((topic) => (
             <FormControlLabel

@@ -5,12 +5,14 @@ import { GreyedOutCard, SwipeCard } from './Card';
 import { Heading, Text } from './Typography';
 import { ChoiceButton } from './ChoiceButton';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 export const SwipeableCardStack = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tilt, setTilt] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const { saveCard } = useSavedCards();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Reset currentIndex to 0 when data changes
@@ -27,6 +29,13 @@ export const SwipeableCardStack = ({ data }) => {
     setTilt(0); // Reset tilt after swipe
     setOpacity(1); // Reset opacity after swipe
   };
+
+  // Navigate to a different page when no more cards
+  useEffect(() => {
+    if (currentIndex >= data.length) {
+      navigate('/chatList');
+    }
+  }, [currentIndex, data.length, navigate]);
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {

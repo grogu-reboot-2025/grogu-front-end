@@ -1,10 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { SavedCardsProvider } from './context/SavedCardsContext';
-import { AppWrapper } from './components/AppWrapper';
-import { GlobalStyles } from './components/GlobalStyles';
-import { Swipe } from './pages/Swipe';
-import { Topics } from './pages/topics';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SavedCardsProvider } from "./context/SavedCardsContext";
+import { AppWrapper } from "./components/AppWrapper";
+import { GlobalStyles } from "./components/GlobalStyles";
+import { Swipe } from "./pages/Swipe";
+import { Topics } from "./pages/topics";
+import { SplashScreen } from "./pages/splashScreen";
 
 const App = () => {
   return (
@@ -13,7 +14,8 @@ const App = () => {
         <GlobalStyles />
         <AppWrapper>
           <Routes>
-            <Route path="/" element={<Topics/>} />
+            <Route path="/" element={<SplashScreen />} />
+            <Route path="/topics" element={<Topics />} />
             <Route path="/swipe" element={<Swipe />} />
           </Routes>
         </AppWrapper>

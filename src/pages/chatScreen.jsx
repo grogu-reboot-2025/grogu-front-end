@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import "./ChatScreen.css"; // Make sure to add the CSS file for styles
+import { FaPaperPlane } from "react-icons/fa";  // Import the send icon from react-icons
+import "./ChatScreen.css";
+import useOpenAIChat from "../hooks/useOpenAi";
 
-export const ChatScreen = () => {
-  // This state holds messages for different chats, indexed by chatId.
+export const ChatScreen = ({ systemMessage }) => {
   const [chats, setChats] = useState({
-    1: [{ id: 1, sender: "bot", text: "Hello! How are you?" }],
+    1: [{ id: 1, sender: "assistant", text: "Hello! How can I assist you today?" }],
+  });
+  const [input, setInput] = useState("");
+  const [currentChat, setCurrentChat] = useState(1);
+
+  const { sendMessage, response, loading, error } = useOpenAIChat();
+
+  const messageAnimation = useSpring({
+    opacity: 1,
+    transform: "translateY(0px)",
+    from: { opacity: 0, transform: "translateY(30px)" },
+    config: { tension: 300, friction: 20 },
   });
 
-  const [input, setInput] = useState("");
-  const [currentChat, setCurrentChat] = useState(1); // Initially chatId 1
-
-  // Handle sending a message in the current chat
-  const handleSend = (text) => {
+  const handleSend = async (text) => {
     if (text.trim() === "") return;
 
     const newMessage = { id: Date.now(), sender: "user", text };
@@ -25,12 +33,29 @@ export const ChatScreen = () => {
       };
     });
 
-    // Simulate a bot response
-    setTimeout(() => {
+    const messages = [
+      {
+        role: "system",
+        content: systemMessage || "You are a helpful assistant that only knows about pensions, you know nothing else and will not answer about anything else.",
+      },
+      ...chats[currentChat]
+        .map((msg) => ({
+          role: msg.sender === "user" ? "user" : "assistant",
+          content: msg.text || "",
+        }))
+        .filter((msg) => msg.content),
+      { role: "user", content: text },
+    ];
+
+    await sendMessage(messages);
+  };
+
+  useEffect(() => {
+    if (response?.choices?.length > 0) {
       const botMessage = {
         id: Date.now() + 1,
-        sender: "bot",
-        text: "This is a bot response!",
+        sender: "assistant",
+        text: response.choices[0].message.content || "No response",
       };
 
       setChats((prevChats) => {
@@ -40,15 +65,8 @@ export const ChatScreen = () => {
           [currentChat]: updatedMessages,
         };
       });
-    }, 500);
-  };
-
-  const messageAnimation = useSpring({
-    opacity: 1,
-    transform: "translateY(0px)",
-    from: { opacity: 0, transform: "translateY(30px)" },
-    config: { tension: 300, friction: 20 },
-  });
+    }
+  }, [response, currentChat]);
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -61,44 +79,30 @@ export const ChatScreen = () => {
     }
   };
 
-  // Handle chat switching (if you want to dynamically switch between chats)
-  const switchChat = (chatId) => {
-    setChats((prevChats) => {
-      if (prevChats[chatId]) return prevChats;
-      return {
-        ...prevChats,
-        [chatId]: [
-          {
-            id: Date.now(),
-            sender: "bot",
-            text: `Hi, how are you?`,
-          },
-        ],
-      };
-    });
-    setCurrentChat(chatId);
-  };
+  useEffect(() => {
+    if (loading) {
+      console.log("Loading... waiting for response from OpenAI...");
+    }
+  }, [loading]);
 
   return (
     <div className="chat-screen">
-      {/* <div className="chat-switch">
-        <button onClick={() => switchChat(1)}>Chat 1</button>
-        <button onClick={() => switchChat(2)}>Chat 2</button>
-      </div> */}
-
       <h2>Chat with {`Person ${currentChat}`}</h2>
       <div className="chat-window">
         {chats[currentChat]?.map((msg) => (
-          <animated.div key={msg.id} style={messageAnimation}>
-            <div
-              className={`chat-message ${
-                msg.sender === "user" ? "user" : "bot"
-              }`}
-            >
-              <p>{msg.text}</p>
-            </div>
-          </animated.div>
+          msg.sender !== "system" && (
+            <animated.div key={msg.id} style={messageAnimation}>
+              <div className={`chat-message ${msg.sender === "user" ? "user" : "assistant"}`}>
+                <p>{msg.text}</p>
+              </div>
+            </animated.div>
+          )
         ))}
+        {loading && (
+          <div className="chat-message assistant">
+            <p>Loading...</p>
+          </div>
+        )}
       </div>
 
       <div className="chat-input">
@@ -109,6 +113,9 @@ export const ChatScreen = () => {
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
         />
+        <button onClick={() => handleSend(input)} className="send-button">
+          <FaPaperPlane size={24} />
+        </button>
       </div>
     </div>
   );

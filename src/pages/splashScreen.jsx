@@ -18,9 +18,7 @@ export const SplashScreen = () => {
 
   return (
     <animated.div style={fadeIn}>
-      <Card>
-        <Heading>Welcome! </Heading>
-      </Card>
+      <Heading>Cash Cupid</Heading>
     </animated.div>
   );
 };

@@ -1,61 +1,82 @@
 .chat-screen {
-    width: 400px;
-    height: 600px;
-    margin: auto;
-    background-color: #f7f7f7;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-  
-  .chat-window {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  .chat-message {
-    max-width: 80%;
-    padding: 10px;
-    border-radius: 20px;
-    margin: 5px 0;
-    word-wrap: break-word;
-  }
-  
-  .chat-message.user {
-    background-color: #4caf50;
-    color: white;
-    align-self: flex-end;
-  }
-  
-  .chat-message.bot {
-    background-color: #e0e0e0;
-    color: #333;
-    align-self: flex-start;
-  }
-  
-  .chat-input {
-    margin-top: 20px;
-  }
-  
-  .chat-input input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-  }
-  
-  .chat-input input:focus {
-    border-color: #4caf50;
-  }
-  
+  width: 400px;
+  height: 600px;
+  margin: auto;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 5px 0;
+  word-wrap: break-word;
+}
+
+.chat-message.user {
+  background-color: #4caf50;
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-message.bot {
+  background-color: #e0e0e0;
+  color: #333;
+  align-self: flex-start;
+}
+
+.chat-input {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-input input {
+  flex-grow: 1; /* Make input field take available space */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px 0 0 20px; /* Rounded corners on the left */
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #4caf50;
+}
+
+.send-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 15px;
+  color: #808080; /* Set the button text (icon) color to grey */
+  font-size: 24px;
+  border-radius: 0 20px 20px 0; /* Rounded corners on the right */
+  transition: color 0.3s ease;
+}
+
+.send-button:hover {
+  color: #555555; /* Darker grey on hover */
+}
+
+.send-button:focus {
+  outline: none; /* Removes the blue outline */
+  background: none; /* Removes the blue background */
+}

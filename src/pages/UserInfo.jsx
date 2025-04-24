@@ -71,7 +71,7 @@ export const User = () => {
 
           {/* Marriage Status */}
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
-            <h4>Are you married?</h4>
+            <h4 style={{ padding: "0.3rem" }}>Are you married?</h4>
             <button
               onClick={() => setIsMarried(!isMarried)}
               style={{
@@ -91,7 +91,7 @@ export const User = () => {
 
           {/* Children Status */}
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
-            <h4>Do you have children?</h4>
+            <h4 style={{ padding: "0.3rem" }}>Do you have children?</h4>
             <button
               onClick={() => setIsKids(!isKids)}
               style={{

@@ -11,7 +11,7 @@ export const ChatScreen = () => {
     if (text.trim() === "") return;
     const userMessage = { id: messages.length + 1, sender: "user", text };
     setMessages((prev) => [...prev.userMessage]);
-    // Simulate bot response
+
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,

@@ -2,10 +2,10 @@
 
 set -e  # Exit immediately if any command fails
 
-ACR_NAME="grogucr"
+ACR_NAME="grogucontainerreg"
 IMAGE_NAME="grogu-front-end"
 IMAGE_TAG="v1"
-RESOURCE_GROUP="groguResourceGroup"
+RESOURCE_GROUP="Team01"
 
 LOGIN_SERVER="${ACR_NAME}.azurecr.io"
 FULL_IMAGE="${LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}"

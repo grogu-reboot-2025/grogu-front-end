@@ -1,16 +1,25 @@
-import { Demo } from "./pages/demo";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Topics } from "./pages/topics";
-import { SplashScreen } from "./pages/splashScreen";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { SavedCardsProvider } from './context/SavedCardsContext';
+import { AppWrapper } from './components/AppWrapper';
+import { GlobalStyles } from './components/GlobalStyles';
+import { Swipe } from './pages/Swipe';
+import { Topics } from './pages/topics';
 
-export const App = () => {
+const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/demo" element={<Demo />} />
-        <Route path="/topics" element={<Topics />} />
-        <Route path="/" element={<SplashScreen />} />
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <SavedCardsProvider>
+        <GlobalStyles />
+        <AppWrapper>
+          <Routes>
+            <Route path="/" element={<Topics/>} />
+            <Route path="/swipe" element={<Swipe />} />
+          </Routes>
+        </AppWrapper>
+      </SavedCardsProvider>
+    </Router>
   );
 };
+
+export default App;

@@ -3,62 +3,110 @@
 
 This is the repository for the Reboot London Hackathon.
 
-## Fork this Repository
+## Team Grogu - Reboot Challenge 2025 Submission
 
-To fork this repository, select the `Fork` dropdown menu next to the title:
+Welcome to **Team Grogu's** submission for the **Reboot Challenge 2025** in London! 🎉
 
-![](./images/fork.png)
+Our concept is a **personalized, Tinder-like swipable application** designed to help colleagues discover and engage with products tailored to their preferences. The app provides a fun and intuitive way to explore options, save favorites, and make decisions effortlessly.
 
-Then select `+ Create New Fork`:
+---
 
-![](./images/create-new-fork.png)
+## 🌟 Concept
 
-For the `Repository name`, please make sure you enter your team's name so that we can keep track of the different repositories.
+The application allows users to:
+- **Swipe left** to discard products they are not interested in.
+- **Swipe right** to save products they like.
+- View a **stack of personalized product cards** with descriptions and images.
+- Enjoy a seamless and engaging user experience.
 
-If your team is building multiple components and requires multiple repositories, fork this repository and enter the team name followed by the name of the component.
+This app is built with a focus on **personalization** and **ease of use**, making it a perfect tool for colleagues to explore products in an interactive way.
 
-For example, if you have a `frontend` and `backend` application, the first fork can be called `TeamName-frontend` and the second fork can be called `TeamName-backend`.
+---
 
-> [!NOTE]
-> If you're only building a single component, you can leave the `Repository name` as `TeamName`.
+## 🛠️ Tech Stack
 
-Once you've entered the name, select `Create fork`:
+We used modern web technologies to build this application:
+- **React**: For building the user interface.
+- **React Router**: For navigation between pages.
+- **Styled Components**: For styling the app with dynamic and reusable components.
+- **React Swipeable**: For implementing swipe gestures.
+- **Vite**: For fast development and build tooling.
+- **Azure Container Apps**: For deployment and hosting.
 
-![](./images/create-fork.png)
+---
 
-### Add Collaborators
+## 🚀 How to Run the Application
 
-Now that you've created your own fork, if another member within your team wants to contribute to the code, you would need to add them as a collaborator.
+Follow these steps to run the application locally:
 
-To do so, navigate to the repository containing your fork and click on `Settings`:
+### 1. Clone the Repository
+```bash
+git clone
+cd Repo
+```
 
-![](./images/settings.png)
+### 2. Install Dependencies
+Make sure you have **Node.js** installed, then run:
+```bash
+npm install
+```
 
-Then select the `Collaborators` option in the navigation menu on the left:
+### 3. Start the Development Server
+Run the following command to start the app in development mode:
+```bash
+npm run dev
+```
+The app will be available at [http://localhost:5173](http://localhost:5173).
 
-![](./images/collaborators.png)
+### 4. Build for Production
+To create a production-ready build, run:
+```bash
+npm run build
+```
 
-Select `Add people`:
+### 5. Preview the Production Build
+To preview the production build locally, run:
+```bash
+npm run preview
+```
 
-![](./images/add-people.png)
+---
 
-And search for the `username`, `full name`, or `email` of the member you want to add to the repository.
+## 📦 Deployment
 
-Then they can clone your repository and contribute code to your fork.
+The app is deployed using **Azure Container Apps**. The deployment process includes:
+1. Building a Docker image of the app.
+2. Pushing the image to **Azure Container Registry (ACR)**.
+3. Deploying the image to **Azure Container Apps**.
 
-> [!NOTE]
-> Please make sure to add them to your forked version of the repository. You won't be able to add them here directly.
->
-### How to sign in to GitHub Copilot
+The deployment workflow is automated using GitHub Actions. See the `.github/workflows/deploy.yml` file for details.
 
-IT@LBG request will need to have been raised and completed before you can do the below:
- 
-Once you've been given a licence you'll be sent your username in an email (to your LBG email address).
+---
 
-When logging in use the username you've been given (example: charlotte-Boults_lbgghcp) this will remove the password field and redirect you to the Microsoft sign in page.
+## 💡 Features
 
-On the Microsoft sign in page use your LBG global credentials (example:Charlotte.boults@lloydsbanking.com) and password you use to log into your work device.
+- **Responsive Design**: Works seamlessly on mobile, tablet, and desktop devices.
+- **Dynamic Swiping**: Cards tilt and become slightly transparent as you swipe.
+- **Personalized Experience**: Products are tailored to the user's preferences.
+- **Interactive Buttons**: Use "X" and "✔️" buttons to discard or save products.
 
-Once authentication is complete you should be re-directed to GitHub Copilot home page.
+---
 
-Now you're ready to start. Happy coding!
+## 🏆 About the Reboot Challenge
+
+The **Reboot Challenge 2025** is an exciting event in London where teams compete to create innovative solutions for real-world problems. Team Grogu is proud to present this app as our submission, showcasing creativity, technical expertise, and a user-first approach.
+
+---
+
+## 👥 Team Grogu
+
+- **Chris Wong** - Engineer
+- **David Topping** - Engineer
+- **Gemma Riddell** - Engineer
+- **Hannah Mowbray** - Team Lead/Engineer
+- **Luan Nguyen** - Engineer
+- **Matthew Wasylko** - Team Mascot/ Skiver
+
+---
+
+Thank you for exploring our app! We hope you enjoy using it as much as we enjoyed building it. 💚

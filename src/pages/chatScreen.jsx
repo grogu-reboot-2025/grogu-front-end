@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import { FaPaperPlane } from "react-icons/fa"; // Import the send icon from react-icons
 import { useLocation } from "react-router-dom"; // Import useLocation to access passed data
@@ -11,8 +11,15 @@ export const ChatScreen = ({ systemMessage }) => {
   });
   const [input, setInput] = useState("");
   const [currentChat, setCurrentChat] = useState(1);
+  const chatWindowRef = useRef(null);
 
   const { sendMessage, response, loading, error } = useOpenAIChat();
+
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [chats]);
 
   const messageAnimation = useSpring({
     opacity: 1,
@@ -109,7 +116,7 @@ export const ChatScreen = ({ systemMessage }) => {
         <h2>Loading chat...</h2>
       )}
 
-      <div className="chat-window">
+      <div className="chat-window"  ref={chatWindowRef}>
         {chats[currentChat]?.map((msg) => (
           msg.sender !== "system" && (
             <animated.div key={msg.id} style={messageAnimation}>

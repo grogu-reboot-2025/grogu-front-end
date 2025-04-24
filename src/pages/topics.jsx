@@ -1,41 +1,85 @@
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import Button from "../components/Button";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { animated } from "react-spring";
 import useFadeInOnLoad from "../hooks/useFadeInOnLoad";
+import useGroguApi from "../hooks/useGroguApi";
+import { useProductsContext } from "../context/ProductsContext"; 
+
+const categoryMap = {
+  Insurance: "Insurance",
+  Pensions: "Pensions",
+  Investments: "Investments",
+  "Bank Accounts": "BankAccounts",
+  "Credit Cards": "CreditCards",
+  Isas: "ISAs",
+};
 
 export const Topics = () => {
+  const { selectedProducts, setSelectedProducts, setApiData } = useProductsContext(); // Get values from context
   const [checkedStates, setCheckedStates] = useState({
     Insurance: false,
     Pensions: false,
     Investments: false,
-    Banking: false,
+    "Bank Accounts": false,
+    "Credit Cards": false,
+    Isas: false,
   });
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [shouldFetch, setShouldFetch] = useState(false);
+  const [apiEndpoint, setApiEndpoint] = useState(null);
+  const navigate = useNavigate();
+
+  const { data, error, loading } = useGroguApi(apiEndpoint);
+
+  const fadeIn = useFadeInOnLoad();
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
-    setCheckedStates((prevState) => ({
-      ...prevState,
+    setCheckedStates((prev) => ({
+      ...prev,
       [name]: checked,
     }));
   };
 
   const handleSubmit = () => {
-    let statesToSubmit = [];
-    for (const topic in checkedStates) {
-      if (checkedStates[topic] === true) {
-        statesToSubmit.push(topic);
-      }
-    }
-    // Navigate to the swipe page and pass the selected topics
-    navigate("/swipe", { state: { selectedTopics: statesToSubmit } });
+    const selected = Object.entries(checkedStates)
+      .filter(([_, checked]) => checked)
+      .map(([label]) => categoryMap[label]);
+
+    const queryString = selected.join(",");
+    const endpoint = `/products?category=${queryString}`;
+
+    console.log("[handleSubmit] Selected labels:", selected);
+    console.log("[handleSubmit] API Endpoint:", endpoint);
+
+    setApiEndpoint(endpoint);
+    setSelectedProducts(selected); 
+    setShouldFetch(true);
   };
 
-  const fadeIn = useFadeInOnLoad();
+  useEffect(() => {
+    if (shouldFetch && !loading && data) {
+      console.log("[API Response]", data);
+      setApiData(data);
+
+      navigate("/swipe", {
+        state: {
+          selectedTopics: Object.entries(checkedStates)
+            .filter(([_, checked]) => checked)
+            .map(([label]) => label),
+          apiData: data,
+        },
+      });
+    }
+  }, [shouldFetch, loading, data, navigate, checkedStates, setApiData]);
+
+  useEffect(() => {
+    console.log("[Context Values] selectedProducts:", selectedProducts);
+    console.log("[Context Values] API Data:", data);
+  }, [selectedProducts, data]);
 
   return (
     <animated.div style={fadeIn}>
@@ -55,7 +99,6 @@ export const Topics = () => {
             />
           ))}
         </FormGroup>
-        {/* <pre>{JSON.stringify(checkedStates, null, 2)}</pre> */}
         <Button onClick={handleSubmit}>Let's swipe!</Button>
       </Card>
     </animated.div>

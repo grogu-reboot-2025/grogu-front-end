@@ -1,26 +1,14 @@
-import React from 'react';
-import Button from './components/Button';
-import Input from './components/Input';
-import Card from './components/Card';
-import Container from './components/Container';
-import ApiTest from './components/ApiTest';
-import { Heading, Text } from './components/Typography';
+import { Demo } from "./pages/demo";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Topics } from "./pages/topics";
 
-const App = () => {
+export const App = () => {
   return (
-    <Container>
-      <Heading>Welcome to the App</Heading>
-      <Text>This is a reusable component demo.</Text>
-      <Card>
-        <Text>Card Content</Text>
-        <Input placeholder="Enter text here" />
-        <Button>Primary Button</Button>
-        <Button variant="secondary">Secondary Button</Button>
-      </Card>
-      <ApiTest></ApiTest>
-    </Container>
-
+    <BrowserRouter>
+      <Routes>
+        <Route path="/demo" element={<Demo />} />
+        <Route path="/topics" element={<Topics />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
-
-export default App;

@@ -51,7 +51,7 @@ export const ChatScreen = ({ systemMessage }) => {
     });
 
     // Dynamic system message based on card title
-    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else.`;
+    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else. Give this as plain text, no md`;
 
     const messages = [
       {

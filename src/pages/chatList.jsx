@@ -1,24 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Card, CardContent, CardMedia, Typography, Stack } from "@mui/material";
-import { styled } from '@mui/system';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Stack,
+} from "@mui/material";
+import { styled } from "@mui/system";
 import { useSavedCards } from "../context/SavedCardsContext";
 
 // Styled components
 const MatchCard = styled(Card)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
   borderRadius: theme.spacing(2),
-  overflow: 'hidden',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-  transition: 'transform 0.2s ease',
-  cursor: 'pointer',
+  overflow: "hidden",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+  transition: "transform 0.2s ease",
+  cursor: "pointer",
   maxWidth: 500,
-  width: '100%',
-  margin: '0 auto',
-  '&:hover': {
-    transform: 'scale(1.01)',
+  width: "100%",
+  margin: "0 auto",
+  "&:hover": {
+    transform: "scale(1.01)",
   },
 }));
 
@@ -33,7 +40,7 @@ const MatchListItem = ({ avatarSrc, name, tagline }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/chat');
+    navigate("/chat");
   };
 
   return (
@@ -56,8 +63,16 @@ export const ChatList = () => {
   const { savedCards } = useSavedCards();
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 3 }}>
-      <Box sx={{ textAlign: 'center', marginBottom: 3 }}>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 3,
+      }}
+    >
+      <Box sx={{ textAlign: "center", marginBottom: 3 }}>
         <Typography variant="h5" fontWeight={600}>
           Your Matches
         </Typography>
@@ -66,7 +81,7 @@ export const ChatList = () => {
         </Typography>
       </Box>
 
-      <Stack spacing={2} sx={{ width: '100%', maxWidth: 500 }}>
+      <Stack spacing={2} sx={{ width: "100%", maxWidth: 500 }}>
         {savedCards.length > 0 ? (
           savedCards.map((card, index) => (
             <MatchListItem
@@ -77,7 +92,10 @@ export const ChatList = () => {
             />
           ))
         ) : (
-          <Typography variant="body1" sx={{ padding: 2, textAlign: 'center', color: 'text.secondary' }}>
+          <Typography
+            variant="body1"
+            sx={{ padding: 2, textAlign: "center", color: "text.secondary" }}
+          >
             No matches yet. Start saving some!
           </Typography>
         )}

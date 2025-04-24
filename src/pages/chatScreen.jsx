@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
+import { useSavedCards } from "../context/SavedCardsContext";
 import "./ChatScreen.css"; // Make sure to add the CSS file for styles
 
 export const ChatScreen = () => {
@@ -7,6 +8,8 @@ export const ChatScreen = () => {
   const [chats, setChats] = useState({
     1: [{ id: 1, sender: "bot", text: "Hello! How are you?" }],
   });
+
+  const { savedCards } = useSavedCards();
 
   const [input, setInput] = useState("");
   const [currentChat, setCurrentChat] = useState(1); // Initially chatId 1
@@ -81,12 +84,7 @@ export const ChatScreen = () => {
 
   return (
     <div className="chat-screen">
-      {/* <div className="chat-switch">
-        <button onClick={() => switchChat(1)}>Chat 1</button>
-        <button onClick={() => switchChat(2)}>Chat 2</button>
-      </div> */}
-
-      <h2>Chat with {`Person ${currentChat}`}</h2>
+      <h2>Chat with {`${savedCards}`}</h2>
       <div className="chat-window">
         {chats[currentChat]?.map((msg) => (
           <animated.div key={msg.id} style={messageAnimation}>
@@ -95,7 +93,12 @@ export const ChatScreen = () => {
                 msg.sender === "user" ? "user" : "bot"
               }`}
             >
-              <p>{msg.text}</p>
+              <p>
+                {msg.sender === "bot" && usedSavedCards
+                  ? `${usedSavedCards}: `
+                  : ""}
+                {msg.text}
+              </p>
             </div>
           </animated.div>
         ))}

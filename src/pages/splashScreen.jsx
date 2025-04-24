@@ -11,16 +11,14 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     const time = setTimeout(() => {
-      navigate("/topics");
+      navigate("/user");
     }, 1500);
     return () => clearTimeout(time);
   }, [navigate]);
 
   return (
     <animated.div style={fadeIn}>
-      <Card>
-        <Heading>Welcome! </Heading>
-      </Card>
+      <Heading>Cash Cupid</Heading>
     </animated.div>
   );
 };

@@ -71,7 +71,11 @@ export const Topics = () => {
   return (
     <animated.div style={fadeIn}>
       <Heading>Preferences</Heading>
-      <Text>Select the categories for the products you're interested in:</Text>
+      <div style={{ textAlign: "center" }}>
+        <Text>
+          Select the categories for the products you're interested in:
+        </Text>
+      </div>
       <Card>
         <div
           style={{
@@ -117,7 +121,7 @@ export const Topics = () => {
           ))}
         </div>
       </Card>
-      <div className="mt-6">
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
         <Button onClick={handleSubmit}>Let's swipe!</Button>
       </div>
     </animated.div>

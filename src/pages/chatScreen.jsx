@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import "./ChatScreen.css";  // Make sure to add the CSS file for styles
+import "./ChatScreen.css"; // Make sure to add the CSS file for styles
 
 export const ChatScreen = () => {
   // This state holds messages for different chats, indexed by chatId.
   const [chats, setChats] = useState({
-    1: [{ id: 1, sender: "user", text: "Hello! How are you?" }],
+    1: [{ id: 1, sender: "bot", text: "Hello! How are you?" }],
   });
 
   const [input, setInput] = useState("");
@@ -28,7 +28,7 @@ export const ChatScreen = () => {
     // Simulate a bot response
     setTimeout(() => {
       const botMessage = {
-        id: Date.now() + 1, 
+        id: Date.now() + 1,
         sender: "bot",
         text: "This is a bot response!",
       };
@@ -63,22 +63,37 @@ export const ChatScreen = () => {
 
   // Handle chat switching (if you want to dynamically switch between chats)
   const switchChat = (chatId) => {
+    setChats((prevChats) => {
+      if (prevChats[chatId]) return prevChats;
+      return {
+        ...prevChats,
+        [chatId]: [
+          {
+            id: Date.now(),
+            sender: "bot",
+            text: `Hi, how are you?`,
+          },
+        ],
+      };
+    });
     setCurrentChat(chatId);
   };
 
   return (
     <div className="chat-screen">
-      <div className="chat-switch">
+      {/* <div className="chat-switch">
         <button onClick={() => switchChat(1)}>Chat 1</button>
         <button onClick={() => switchChat(2)}>Chat 2</button>
-      </div>
+      </div> */}
 
       <h2>Chat with {`Person ${currentChat}`}</h2>
       <div className="chat-window">
         {chats[currentChat]?.map((msg) => (
           <animated.div key={msg.id} style={messageAnimation}>
             <div
-              className={`chat-message ${msg.sender === "user" ? "user" : "bot"}`}
+              className={`chat-message ${
+                msg.sender === "user" ? "user" : "bot"
+              }`}
             >
               <p>{msg.text}</p>
             </div>

@@ -7,6 +7,7 @@ import { animated } from "react-spring";
 import useFadeInOnLoad from "../hooks/useFadeInOnLoad";
 import useGroguApi from "../hooks/useGroguApi";
 import { useProductsContext } from "../context/ProductsContext"; 
+import { Heading } from "../components/Typography";
 
 const categoryMap = {
   Insurance: "Insurance",
@@ -14,18 +15,19 @@ const categoryMap = {
   Investments: "Investments",
   "Bank Accounts": "BankAccounts",
   "Credit Cards": "CreditCards",
-  Isas: "ISAs",
+  ISAs: "ISAs",
 };
 
 export const Topics = () => {
-  const { selectedProducts, setSelectedProducts, setApiData } = useProductsContext(); // Get values from context
+  const { selectedProducts, setSelectedProducts, setApiData } = useProductsContext(); 
   const [checkedStates, setCheckedStates] = useState({
     Insurance: false,
     Pensions: false,
     Investments: false,
     "Bank Accounts": false,
     "Credit Cards": false,
-    Isas: false,
+    ISAs: false,
+    "Credit Cards": false,
   });
 
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -84,6 +86,7 @@ export const Topics = () => {
   return (
     <animated.div style={fadeIn}>
       <Card>
+        <Heading>Pick your preferences</Heading>
         <FormGroup>
           {Object.keys(checkedStates).map((topic) => (
             <FormControlLabel

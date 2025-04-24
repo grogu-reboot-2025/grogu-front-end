@@ -25,7 +25,7 @@ export const AppWrapper = ({ children }) => {
     <Wrapper>
       <Header />
       <Main>{children}</Main>
-      <Footer />
+      {/* <Footer /> */}
     </Wrapper>
   );
 };

@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: grogu-front-end
-  RESOURCE_GROUP: groguResourceGroup
+  RESOURCE_GROUP: Team01
   CONTAINER_APP_NAME: grogu-front-end
   REGISTRY_LOGIN_SERVER: ${{ secrets.REGISTRY_LOGIN_SERVER }}
 
@@ -42,4 +42,4 @@ jobs:
           imageToDeploy: ${{ env.REGISTRY_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           resourceGroup: ${{ env.RESOURCE_GROUP }}
-          acrName: grogucr
+          acrName: grogucontainerreg

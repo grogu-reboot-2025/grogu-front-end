@@ -51,7 +51,7 @@ export const ChatScreen = ({ systemMessage }) => {
     });
 
     // Dynamic system message based on card title
-    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else. Give this as plain text, no md`;
+    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else. Give this response as plain text, no markdown"!`;
 
     const messages = [
       {
@@ -68,7 +68,22 @@ export const ChatScreen = ({ systemMessage }) => {
     ];
 
     await sendMessage(messages);
+
+    // Clear the input after sending
+    setInput("");
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSend(input); // Send the input message
+    }
+  };
+
+  useEffect(() => {
+    if (loading) {
+      console.log("Loading... waiting for response from OpenAI...");
+    }
+  }, [loading]);
 
   useEffect(() => {
     if (response?.choices?.length > 0) {
@@ -92,19 +107,6 @@ export const ChatScreen = ({ systemMessage }) => {
     setInput(e.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSend(input);
-      setInput("");
-    }
-  };
-
-  useEffect(() => {
-    if (loading) {
-      console.log("Loading... waiting for response from OpenAI...");
-    }
-  }, [loading]);
-
   return (
     <div className="chat-screen">
       {/* Display card title if available */}
@@ -116,7 +118,7 @@ export const ChatScreen = ({ systemMessage }) => {
         <h2>Loading chat...</h2>
       )}
 
-      <div className="chat-window"  ref={chatWindowRef}>
+      <div className="chat-window" ref={chatWindowRef}>
         {chats[currentChat]?.map((msg) => (
           msg.sender !== "system" && (
             <animated.div key={msg.id} style={messageAnimation}>

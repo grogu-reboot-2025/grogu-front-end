@@ -3,11 +3,10 @@ import { Heading, Text } from "../components/Typography";
 import { SwipeableCardStack } from "../components/SwipeableCardStack";
 import { useProductsContext } from "../context/ProductsContext";
 
-// Function to shuffle an array (Fisher-Yates algorithm)
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    [array[i], array[j]] = [array[j], array[i]]; 
   }
 };
 
@@ -21,7 +20,6 @@ export const Swipe = () => {
 
   const cardData = [];
 
-  // Iterating over the keys of the apiData object
   Object.keys(apiData).forEach((topic) => {
     console.log(`Processing topic: ${topic}`);
     if (apiData[topic]) {
@@ -37,15 +35,12 @@ export const Swipe = () => {
     }
   });
 
-  // Shuffle the card data array to randomize the order
   shuffleArray(cardData);
 
   console.log("Card Data (Shuffled): ", cardData);
 
   return (
     <>
-      <Heading>Swipe</Heading>
-      <Text>Swipe through your options here.</Text>
       <SwipeableCardStack data={cardData} />
     </>
   );

@@ -6,13 +6,17 @@ import { Heading, Text } from './Typography';
 import { ChoiceButton } from './ChoiceButton';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Toast } from './Toast'; // Import the Toast component
 
 export const SwipeableCardStack = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tilt, setTilt] = useState(0);
   const [opacity, setOpacity] = useState(1);
+  const [showToast, setShowToast] = useState(false); // State to control toast visibility
+  const [toastMessage, setToastMessage] = useState(''); // State for toast message
   const { saveCard } = useSavedCards();
   const navigate = useNavigate(); // Initialize useNavigate
+  const [hasSwipedRight, setHasSwipedRight] = useState(false); // Track if any card was swiped right
 
   useEffect(() => {
     // Reset currentIndex to 0 when data changes
@@ -24,18 +28,26 @@ export const SwipeableCardStack = ({ data }) => {
     if (direction === 'Right') {
       console.log(`Card saved: ${data[currentIndex].title}`);
       saveCard(data[currentIndex]);
+      setHasSwipedRight(true);
     }
-    setCurrentIndex((prevIndex) => prevIndex + 1); // Increment index after swipe
-    setTilt(0); // Reset tilt after swipe
-    setOpacity(1); // Reset opacity after swipe
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setTilt(0);
+    setOpacity(1);
   };
 
-  // Navigate to a different page when no more cards
+
   useEffect(() => {
     if (currentIndex >= data.length) {
-      navigate('/chatList');
+      setToastMessage(hasSwipedRight ? "🔥 It's a match!" : "💔 Oh. no matches");
+      setShowToast(true);
+
+
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/chatList");
+      }, 2000);
     }
-  }, [currentIndex, data.length, navigate]);
+  }, [currentIndex, data.length, hasSwipedRight, navigate]);
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
@@ -50,32 +62,35 @@ export const SwipeableCardStack = ({ data }) => {
   });
 
   return (
-    <CardWrapper {...handlers}>
-      <ChoiceButton
-        icon="cross"
-        onClick={() => handleSwipe('Left')}
-        isDisabled={currentIndex >= data.length}
-      />
-      {currentIndex < data.length ? (
-        <SwipeCard style={{ transform: `rotate(${tilt}deg)`, opacity }}>
-          <CardImage
-            src={data[currentIndex].ImagePath}
-            alt={data[currentIndex].title}
-          />
-          <Heading>{data[currentIndex].title}</Heading>
-          <Text>{data[currentIndex].description}</Text>
-        </SwipeCard>
-      ) : (
-        <GreyedOutCard>
-          <h2>No More Cards</h2>
-        </GreyedOutCard>
-      )}
-      <ChoiceButton
-        icon="tick"
-        onClick={() => handleSwipe('Right')}
-        isDisabled={currentIndex >= data.length}
-      />
-    </CardWrapper>
+    <>
+      <CardWrapper {...handlers}>
+        <ChoiceButton
+          icon="cross"
+          onClick={() => handleSwipe('Left')}
+          isDisabled={currentIndex >= data.length}
+        />
+        {currentIndex < data.length ? (
+          <SwipeCard style={{ transform: `rotate(${tilt}deg)`, opacity }}>
+            <CardImage
+              src={data[currentIndex].ImagePath}
+              alt={data[currentIndex].title}
+            />
+            <Heading>{data[currentIndex].title}</Heading>
+            <Text>{data[currentIndex].description}</Text>
+          </SwipeCard>
+        ) : (
+          <GreyedOutCard>
+            <h2>You've reaches the end of your Products</h2>
+          </GreyedOutCard>
+        )}
+        <ChoiceButton
+          icon="tick"
+          onClick={() => handleSwipe('Right')}
+          isDisabled={currentIndex >= data.length}
+        />
+      </CardWrapper>
+      <Toast message={toastMessage} isVisible={showToast} />
+    </>
   );
 };
 
@@ -84,14 +99,12 @@ const CardWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 400px;
-  height: 100%;
   gap: 16px;
 `;
 
 const CardImage = styled.img`
-  width: 100%;
-  height: auto;
+width: 150px;
+  height: 150px;
   border-radius: ${({ theme }) => theme.spacing.small};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;

@@ -12,6 +12,7 @@ import { ProductsContextProvider } from "./context/ProductsContext";
 const App = () => {
   return (
     <Router>
+      <ProductsContextProvider>
       <SavedCardsProvider>
         <GlobalStyles />
         <AppWrapper>
@@ -19,9 +20,11 @@ const App = () => {
             <Route path="/" element={<SplashScreen />} />
             <Route path="/topics" element={<Topics />} />
             <Route path="/swipe" element={<Swipe />} />
+            <Route path="/chatList" element={<ChatList />} />
           </Routes>
         </AppWrapper>
       </SavedCardsProvider>
+      </ProductsContextProvider>
     </Router>
   );
 };

@@ -71,7 +71,11 @@ export const Topics = () => {
   return (
     <animated.div style={fadeIn}>
       <Heading>Preferences</Heading>
-      <Text>Select the categories for the products you're interested in:</Text>
+      <div style={{ textAlign: "center" }}>
+        <Text>
+          Select the categories for the products you're interested in:
+        </Text>
+      </div>
       <Card>
         <div
           style={{

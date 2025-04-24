@@ -24,7 +24,7 @@ export default Card;
 
 export const SwipeCard = styled.div`
   width: 100%;
-  aspect-ratio: 3 / 4;
+  min-height: 200px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.spacing.medium};
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -46,7 +46,7 @@ export const SwipeCard = styled.div`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    width: 700px;
+    width: 500px; 
   }
 `;
 

@@ -37,10 +37,25 @@ const MatchListItem = ({ card }) => {
     navigate('/chat', { state: card }); // Pass the entire card data
   };
 
+    // Handler for keyboard interactions (Enter or Space)
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault(); // Prevents the default space scrolling behavior
+          handleClick(); // Triggers the same action as onClick
+        }
+      };
+
   return (
-    <MatchCard onClick={handleClick}>
-      <Media component="img" image={card.ImagePath} alt={card.title} />
-      <CardContent sx={{ flex: 1 }}>
+    <MatchCard 
+  onClick={handleClick} 
+  tabIndex={0}
+  onKeyDown={handleKeyDown} // Listen for keydown events
+  role="button" // Describes the element as a button
+  aria-label={`Go to chat with ${name}`} // Optional: Improve screen reader usability
+>
+
+<Media component="img" image={card.ImagePath} alt={card.title} />
+<CardContent sx={{ flex: 1 }}>
         <Typography variant="h6" fontWeight={600}>
           {card.title}
         </Typography>

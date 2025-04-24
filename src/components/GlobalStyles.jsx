@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body {
-    height: 100%;
+    min-height: 100vh; // Ensure the app fits the viewport height
     width: 100%;
     overflow-x: hidden; // Prevent horizontal scrolling
   }
@@ -20,6 +20,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   #root {
-    height: 100%; // Ensures the app container fills the viewport
+    min-height: 100vh; // Ensure the app container fills the viewport
   }
 `;

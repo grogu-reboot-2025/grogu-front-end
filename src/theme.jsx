@@ -2,10 +2,15 @@ import { ThemeProvider } from 'styled-components';
 
 const theme = {
   colors: {
-    primary: '#646cff',
-    secondary: '#535bf2',
-    background: '#ffffff',
-    text: '#213547',
+    primary: '#11b67a', // Lloyds green
+    secondary: '#006a4d', // Darker green for secondary elements
+    background: '#F1f1f1', // off white for background
+    text: '#000000', // black for text
+    critical: '#db0f30', // red
+    warning: '#e66d00', // orange
+    success: '#10a870', // green
+    info: '#276ae6', // blue
+    white: '#ffffff', // white for backgrounds and elements
   },
   breakpoints: {
     mobile: '480px',

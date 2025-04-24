@@ -2,6 +2,7 @@ import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import React, { useState } from "react";
 import Card from "../components/Card";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export const Topics = () => {
   const [checkedStates, setCheckedStates] = useState({
@@ -10,6 +11,8 @@ export const Topics = () => {
     Investments: false,
     Banking: false,
   });
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -22,12 +25,12 @@ export const Topics = () => {
   const handleSubmit = () => {
     let statesToSubmit = [];
     for (const topic in checkedStates) {
-      if (checkedStates[topic] == true) {
+      if (checkedStates[topic] === true) {
         statesToSubmit.push(topic);
       }
     }
-    // send statesToSubmit to API
-    console.log(statesToSubmit);
+    // Navigate to the swipe page and pass the selected topics
+    navigate("/swipe", { state: { selectedTopics: statesToSubmit } });
   };
 
   return (

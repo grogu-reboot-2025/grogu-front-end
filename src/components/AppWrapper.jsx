@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { Header } from './Header';
-import { Footer } from './Footer';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh; // Use min-height to ensure it fits the viewport
+  min-height: 100vh; 
   width: 100vw;
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
@@ -13,19 +11,17 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.main`
-  flex: 1; // Ensures the main content fills the remaining space between the header and footer
+  flex: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: center; // Centers content vertically
+  justify-content: center; 
   align-items: center; // Centers content horizontally
 `;
 
 export const AppWrapper = ({ children }) => {
   return (
     <Wrapper>
-      {/* <Header /> */}
       <Main>{children}</Main>
-      {/* <Footer /> */}
     </Wrapper>
   );
 };

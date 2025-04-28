@@ -1,31 +1,36 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const Button = styled.button`
+const StyledButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: ${({ theme }) => theme.spacing.medium};
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  font-family: ${({ theme }) => theme.fontFamily};
-  font-weight: bold;
+  font-weight: 500;
+  color: ${({ theme, variant }) =>
+    variant === 'primary' ? theme.colors.white : theme.colors.text};
+  background-color: ${({ theme, variant }) =>
+    variant === 'primary' ? theme.colors.primary : theme.colors.secondary};
   border: none;
   border-radius: ${({ theme }) => theme.spacing.small};
   cursor: pointer;
-  background-color: ${({ theme, variant }) =>
-    variant === "secondary" ? theme.colors.secondary : theme.colors.primary};
-  color: ${({ theme }) => theme.colors.background};
-  text-align: center;
-  width: 80%; // Full width for mobile-first design
+  transition: background-color 0.3s ease;
 
   &:hover {
-    opacity: 0.9;
+    background-color: ${({ theme, variant }) =>
+    variant === 'primary' ? theme.colors.primaryHover : theme.colors.secondaryHover};
   }
 
   &:disabled {
-    background-color: #ccc;
+    background-color: ${({ theme }) => theme.colors.disabled};
     cursor: not-allowed;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    width: auto; // Revert to auto width for larger screens
   }
 `;
 
-export default Button;
+export const Button = ({ children, variant = 'primary', ...props }) => {
+  return (
+    <StyledButton variant={variant} {...props}>
+      {children}
+    </StyledButton>
+  );
+};

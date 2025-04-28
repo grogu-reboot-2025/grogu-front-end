@@ -1,59 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { useSavedCards } from '../context/SavedCardsContext';
-import { GreyedOutCard, SwipeCard } from './Card';
-import { Heading, Text } from './Typography';
-import { ChoiceButton } from './ChoiceButton';
+import { useNavigate } from 'react-router-dom';
+import { Toast } from './Toast';
+import { ChoiceButton } from './ChoiceButton'; // Use the imported ChoiceButton
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { Toast } from './Toast'; // Import the Toast component
 
 export const SwipeableCardStack = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [tilt, setTilt] = useState(0);
   const [opacity, setOpacity] = useState(1);
-  const [showToast, setShowToast] = useState(false); // State to control toast visibility
-  const [toastMessage, setToastMessage] = useState(''); // State for toast message
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [matchCount, setMatchCount] = useState(0);
   const { saveCard } = useSavedCards();
-  const navigate = useNavigate(); // Initialize useNavigate
-  const [hasSwipedRight, setHasSwipedRight] = useState(false); // Track if any card was swiped right
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Reset currentIndex to 0 when data changes
     setCurrentIndex(0);
-  }, [data]); // Ensure we reset the index if the `data` prop changes
+    setMatchCount(0); 
+  }, [data]);
 
   const handleSwipe = (direction) => {
-    console.log(`Swiped ${direction}`);
     if (direction === 'Right') {
-      console.log(`Card saved: ${data[currentIndex].title}`);
       saveCard(data[currentIndex]);
-      setHasSwipedRight(true);
+      setMatchCount((prevCount) => prevCount + 1); 
     }
     setCurrentIndex((prevIndex) => prevIndex + 1);
     setTilt(0);
     setOpacity(1);
   };
 
-
   useEffect(() => {
     if (currentIndex >= data.length) {
-      setToastMessage(hasSwipedRight ? "🔥 It's a match!" : "💔 Oh. no matches");
+      setToastMessage(
+        matchCount > 0 ? `🔥 You have ${matchCount} match${matchCount > 1 ? 'es' : ''}!` : '💔 No matches'
+      );
       setShowToast(true);
-
 
       setTimeout(() => {
         setShowToast(false);
-        navigate("/chatList");
+        navigate('/chatList');
       }, 2000);
     }
-  }, [currentIndex, data.length, hasSwipedRight, navigate]);
+  }, [currentIndex, data.length, matchCount, navigate]);
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {
-      console.log(`Swiping... DeltaX: ${eventData.deltaX}`);
-      setTilt(eventData.deltaX / 10); // Set tilt based on swipe delta
-      setOpacity(1 - Math.min(Math.abs(eventData.deltaX) / 200, 0.5)); // Adjust opacity as card is swiped
+      setTilt(eventData.deltaX / 10); 
+      setOpacity(1 - Math.min(Math.abs(eventData.deltaX) / 200, 0.5)); 
     },
     onSwipedLeft: () => handleSwipe('Left'),
     onSwipedRight: () => handleSwipe('Right'),
@@ -62,49 +57,101 @@ export const SwipeableCardStack = ({ data }) => {
   });
 
   return (
-    <>
-      <CardWrapper {...handlers}>
-        <ChoiceButton
-          icon="cross"
-          onClick={() => handleSwipe('Left')}
-          isDisabled={currentIndex >= data.length}
-        />
-        {currentIndex < data.length ? (
-          <SwipeCard style={{ transform: `rotate(${tilt}deg)`, opacity }}>
+    <SwipeContainer {...handlers}>
+      {currentIndex < data.length ? (
+        <CardWrapper>
+          <ChoiceButton icon="cross" onClick={() => handleSwipe('Left')} />
+          <Card style={{ transform: `rotate(${tilt}deg)`, opacity }}>
             <CardImage
               src={data[currentIndex].ImagePath}
               alt={data[currentIndex].title}
+              draggable="false" 
             />
-            <Heading>{data[currentIndex].title}</Heading>
-            <Text>{data[currentIndex].description}</Text>
-          </SwipeCard>
-        ) : (
-          <GreyedOutCard>
-            <h2>You've reached the end of your Products</h2>
-          </GreyedOutCard>
-        )}
-        <ChoiceButton
-          icon="tick"
-          onClick={() => handleSwipe('Right')}
-          isDisabled={currentIndex >= data.length}
-        />
-      </CardWrapper>
-      <Toast message={toastMessage} isVisible={showToast} />
-    </>
+            <CardTitle>{data[currentIndex].title}</CardTitle>
+            <CardDescription>{data[currentIndex].description}</CardDescription>
+          </Card>
+          <ChoiceButton icon="tick" onClick={() => handleSwipe('Right')} />
+        </CardWrapper>
+      ) : (
+        showToast && (
+          <Toast
+            message={toastMessage}
+            isVisible={showToast}
+            matchCount={matchCount} 
+          />
+        )
+      )}
+    </SwipeContainer>
   );
 };
+
+const SwipeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: ${({ theme }) => theme.colors.background};
+  overflow: hidden;
+`;
 
 const CardWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  gap: 16px;
+  gap: ${({ theme }) => theme.spacing.medium}; 
+  flex-wrap: nowrap; 
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-wrap: nowrap; 
+    gap: ${({ theme }) => theme.spacing.small};
+  }
+`;
+
+const Card = styled.div`
+  width: 90%; 
+  max-width: 300px; 
+  height: 400px;
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.spacing.medium};
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing.medium};
+  text-align: center;
+  transition: transform 0.2s ease, opacity 0.2s ease; 
 `;
 
 const CardImage = styled.img`
-width: 150px;
-  height: 150px;
+  width: 90%; 
+  height: auto;
+  object-fit: cover;
   border-radius: ${({ theme }) => theme.spacing.small};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+  pointer-events: none; 
+`;
+
+const CardTitle = styled.h2`
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const CardDescription = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const ToastContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 90%; 
+  max-width: 300px; 
+  background: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.spacing.medium};
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
 `;

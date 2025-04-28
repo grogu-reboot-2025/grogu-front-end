@@ -16,13 +16,12 @@ export const ChoiceButton = ({ icon, onClick, isDisabled }) => {
 };
 
 const Button = styled.button`
-
+  background: none;
+  border: none; 
   cursor: pointer;
   margin-left: 8px; 
   margin-right: 8px;
   font-size: 24px; 
-  border: none; 
-
 
   &:hover {
     transform: scale(1.1);

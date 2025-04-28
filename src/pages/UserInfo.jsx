@@ -37,7 +37,7 @@ export const User = () => {
             margin: "1rem auto",
           }}
         >
-          {/* Name Input */}
+
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
             <label>
               <h4 style={{ padding: "0.3rem" }}>Name</h4>
@@ -50,7 +50,7 @@ export const User = () => {
             </label>
           </div>
 
-          {/* Age Dropdown */}
+
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
             <h4>Select Your Age</h4>
             <select
@@ -74,7 +74,7 @@ export const User = () => {
             </select>
           </div>
 
-          {/* Marriage Status */}
+     
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
             <h4 style={{ padding: "0.3rem" }}>Are you married?</h4>
             <button
@@ -94,7 +94,7 @@ export const User = () => {
             </button>
           </div>
 
-          {/* Children Status */}
+
           <div style={{ flex: "1 1 100%", maxWidth: "300px" }}>
             <h4 style={{ padding: "0.3rem" }}>Do you have children?</h4>
             <button
@@ -116,7 +116,6 @@ export const User = () => {
         </div>
       </Card>
 
-      {/* Submit Button */}
       <div style={{ textAlign: "center", marginTop: "1rem" }}>
         <Button onClick={handleSubmit}>Submit</Button>
       </div>

@@ -8,12 +8,12 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body {
-    min-height: 100vh; // Default for desktop and larger screens
+    min-height: 100vh; 
     width: 100%;
-    overflow-x: hidden; // Prevent horizontal scrolling
+    overflow-x: hidden; 
 
     @media (max-width: 768px) {
-      min-height: 100dvh; // Use 100dvh for mobile devices
+      min-height: 100dvh; 
     }
   }
 
@@ -24,9 +24,9 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   #root {
-    min-height: 100vh; // Default for desktop
+    min-height: 100vh; 
     @media (max-width: 768px) {
-      min-height: 100dvh; // Use 100dvh for mobile devices
+      min-height: 100dvh; 
     }
   }
 `;

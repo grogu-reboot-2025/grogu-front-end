@@ -1,33 +1,128 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
-import { FaPaperPlane } from "react-icons/fa"; // Import the send icon from react-icons
-import { useLocation } from "react-router-dom"; // Import useLocation to access passed data
-import "./ChatScreen.css";
+import { FaChevronLeft, FaPaperPlane } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from "styled-components";
 import useOpenAIChat from "../hooks/useOpenAi";
 
-export const ChatScreen = ({ systemMessage }) => {
+const ChatScreenContainer = styled.div`
+  width: 90%;
+  max-width: 400px;
+  height: 90vh;
+  max-height: 600px;
+  margin: auto;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-radius: ${({ theme }) => theme.spacing.medium};
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: ${({ theme }) => theme.spacing.medium};
+`;
+
+const ChatWindow = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.small};
+  scroll-behavior: smooth; 
+`;
+
+const ChatTitle = styled.h2`
+  text-align: center;
+  margin-bottom: ${({ theme }) => theme.spacing.large}; 
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const ChatMessage = styled(animated.div)`
+  max-width: 80%;
+  padding: ${({ theme }) => theme.spacing.medium};
+  border-radius: ${({ theme }) => theme.spacing.medium};
+  margin: ${({ theme }) => theme.spacing.small} 0;
+  word-wrap: break-word;
+  align-self: ${(props) => (props.sender === "user" ? "flex-end" : "flex-start")};
+  background-color: ${(props) =>
+    props.sender === "user" ? props.theme.colors.primary : props.theme.colors.secondary};
+  color: ${(props) =>
+    props.sender === "user" ? props.theme.colors.white : props.theme.colors.white}; 
+`;
+
+const ChatInputContainer = styled.div`
+  margin-top: ${({ theme }) => theme.spacing.medium};
+  display: flex;
+  align-items: center;
+`;
+
+const ChatInput = styled.input`
+  flex-grow: 1;
+  padding: ${({ theme }) => theme.spacing.medium};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  border: 1px solid ${({ theme }) => theme.colors.secondary};
+  border-radius: ${({ theme }) => theme.spacing.medium} 0 0 ${({ theme }) => theme.spacing.medium};
+  outline: none;
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}33;
+  }
+`;
+
+const SendButton = styled.button`
+  background: ${({ theme }) => theme.colors.primary};
+  border: none;
+  cursor: pointer;
+  padding: ${({ theme }) => theme.spacing.medium}; 
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  border-radius: 0 ${({ theme }) => theme.spacing.medium} ${({ theme }) => theme.spacing.medium} 0;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    font-size: 16px; 
+  }
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing.small};
+  left: ${({ theme }) => theme.spacing.small};
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  display: flex;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.large}; 
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const ChatScreen = () => {
   const [chats, setChats] = useState({
     1: [{ id: 1, sender: "assistant", text: "Hello! How can I assist you today?" }],
   });
   const [input, setInput] = useState("");
-  const [currentChat, setCurrentChat] = useState(1);
   const chatWindowRef = useRef(null);
+  const navigate = useNavigate();
 
-  const { sendMessage, response, loading, error } = useOpenAIChat();
-
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [chats]);
-
-  const messageAnimation = useSpring({
-    opacity: 1,
-    transform: "translateY(0px)",
-    from: { opacity: 0, transform: "translateY(30px)" },
-    config: { tension: 300, friction: 20 },
-  });
-
+  const { sendMessage, response, loading } = useOpenAIChat();
   const { state } = useLocation(); // Access passed data using useLocation
   const [cardData, setCardData] = useState(null);
 
@@ -37,28 +132,45 @@ export const ChatScreen = ({ systemMessage }) => {
     }
   }, [state]);
 
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [chats, loading]);
+
+  const messageAnimation = useSpring({
+    opacity: 1,
+    transform: "translateY(0px)",
+    from: { opacity: 0, transform: "translateY(30px)" },
+    config: { tension: 300, friction: 20 },
+  });
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const handleSend = async (text) => {
     if (text.trim() === "") return;
 
     const newMessage = { id: Date.now(), sender: "user", text };
 
     setChats((prevChats) => {
-      const updatedMessages = [...prevChats[currentChat], newMessage];
+      const updatedMessages = [...prevChats[1], newMessage];
       return {
         ...prevChats,
-        [currentChat]: updatedMessages,
+        1: updatedMessages,
       };
     });
 
-    // Dynamic system message based on card title
-    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || 'this topic'}, you know nothing else and will not answer about anything else. Give this response as plain text, no markdown"!`;
+    const systemMessageContent = `You are a helpful assistant that only knows about ${cardData?.title || "this topic"
+      }. You know nothing else and will not answer about anything else. Give this response as plain text, no markdown!`;
 
     const messages = [
       {
         role: "system",
         content: systemMessageContent,
       },
-      ...chats[currentChat]
+      ...chats[1]
         .map((msg) => ({
           role: msg.sender === "user" ? "user" : "assistant",
           content: msg.text || "",
@@ -69,21 +181,14 @@ export const ChatScreen = ({ systemMessage }) => {
 
     await sendMessage(messages);
 
-    // Clear the input after sending
     setInput("");
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleSend(input); // Send the input message
+      handleSend(input);
     }
   };
-
-  useEffect(() => {
-    if (loading) {
-      console.log("Loading... waiting for response from OpenAI...");
-    }
-  }, [loading]);
 
   useEffect(() => {
     if (response?.choices?.length > 0) {
@@ -94,59 +199,57 @@ export const ChatScreen = ({ systemMessage }) => {
       };
 
       setChats((prevChats) => {
-        const updatedMessages = [...prevChats[currentChat], botMessage];
+        const updatedMessages = [...prevChats[1], botMessage];
         return {
           ...prevChats,
-          [currentChat]: updatedMessages,
+          1: updatedMessages,
         };
       });
     }
-  }, [response, currentChat]);
+  }, [response]);
 
   const handleChange = (e) => {
     setInput(e.target.value);
   };
 
   return (
-    <div className="chat-screen">
-      {/* Display card title if available */}
-      {cardData ? (
-        <div>
-          <h2>Chat with {cardData.title}</h2>
-        </div>
-      ) : (
-        <h2>Loading chat...</h2>
-      )}
+    <ChatScreenContainer>
+      <BackButton onClick={handleBack}>
+        <FaChevronLeft />
+      </BackButton>
 
-      <div className="chat-window" ref={chatWindowRef}>
-        {chats[currentChat]?.map((msg) => (
-          msg.sender !== "system" && (
-            <animated.div key={msg.id} style={messageAnimation}>
-              <div className={`chat-message ${msg.sender === "user" ? "user" : "assistant"}`}>
+      <ChatTitle>
+        Chat with {cardData?.title || "Unknown Topic"}
+      </ChatTitle>
+
+      <ChatWindow ref={chatWindowRef}>
+        {chats[1]?.map(
+          (msg) =>
+            msg.sender !== "system" && (
+              <ChatMessage key={msg.id} style={messageAnimation} sender={msg.sender}>
                 <p>{msg.text}</p>
-              </div>
-            </animated.div>
-          )
-        ))}
-        {loading && (
-          <div className="chat-message assistant">
-            <p>Loading...</p>
-          </div>
+              </ChatMessage>
+            )
         )}
-      </div>
+        {loading && (
+          <ChatMessage sender="assistant">
+            <p>Loading...</p>
+          </ChatMessage>
+        )}
+      </ChatWindow>
 
-      <div className="chat-input">
-        <input
+      <ChatInputContainer>
+        <ChatInput
           type="text"
           value={input}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
         />
-        <button onClick={() => handleSend(input)} className="send-button">
+        <SendButton onClick={() => handleSend(input)}>
           <FaPaperPlane size={24} />
-        </button>
-      </div>
-    </div>
+        </SendButton>
+      </ChatInputContainer>
+    </ChatScreenContainer>
   );
 };
